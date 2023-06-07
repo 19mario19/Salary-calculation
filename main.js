@@ -84,7 +84,7 @@ class Employee {
 
     this.money =
       this.rate * this.workingHours +
-      this.rate * (29 - this.freeDays) +
+      this.rate * ((29 - this.freeDays)*8) +
       this.rate * this.extraHours +
       this.bonus
 
@@ -169,13 +169,13 @@ employee1.displayDetails()
 
 let employee2 = new Employee("Ana", 34, "manager", 5)
 
-employee2.setRate(50)
+employee2.setRate(21)
 
 employee2.setName("Iuliana")
 
 employee2.addWorkingDay()
-employee2.addWorkingMonth()
-employee2.addFreeDays()
+// employee2.addWorkingMonth()
+employee2.addFreeDays(20)
 employee2.addExtraDays(3)
 employee2.addExtraHours(5)
 employee2.addWorkingYear()
