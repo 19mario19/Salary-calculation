@@ -105,12 +105,15 @@ class Employee {
 
 let employee1 = new Employee("Alina", 22)
 
-// employee1.addWorkingDay()
+
+// Testing
+
+employee1.addWorkingDay()
 employee1.addWorkingMonth()
-// employee1.addFreeDays()
-// employee1.addExtraDays(3)
-// employee1.addExtraHours(5)
-// employee1.addWorkinYear()
-// employee1.addWorkingDay()
+employee1.addFreeDays()
+employee1.addExtraDays(3)
+employee1.addExtraHours(5)
+employee1.addWorkinYear()
+employee1.addWorkingDay()
 
 employee1.displayDetails()
