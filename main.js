@@ -82,7 +82,7 @@ class Employee {
     this.calculateTotal()
   }
 
-  addWorkinYear(months = 12) {
+  addWorkingYear(months = 12) {
     for (let i = 0; i < months; i++) {
       this.addWorkingMonth()
     }
