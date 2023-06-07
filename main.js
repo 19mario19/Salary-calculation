@@ -11,7 +11,7 @@ class Employee {
     freeDays = 29,
     workingHours = 0,
     extraHours = 0,
-    serviceCharge = 300,
+    bonus = 300,
     tax = 20,
   ) {
     this.name = name
@@ -24,11 +24,11 @@ class Employee {
       this.rate * this.workingHours +
       this.rate * (29 - this.freeDays) +
       this.rate * this.extraHours +
-      this.serviceCharge
+      this.bonus
     this.tax = tax
     this.moneyAfterTax = this.money - percent(tax, this.money)
     this.extraHours = extraHours
-    this.serviceCharge = serviceCharge
+    this.bonus = bonus
   }
 
   // Calculate money
@@ -38,9 +38,8 @@ class Employee {
       this.rate * this.workingHours +
       this.rate * (29 - this.freeDays) +
       this.rate * this.extraHours +
-      this.serviceCharge
+      this.bonus
 
-    console.log(parseFloat(this.moneyAfterTax), this.money, this.tax)
     this.moneyAfterTax = (this.money - percent(this.tax, this.money)).toFixed(2)
   }
 
@@ -51,13 +50,13 @@ class Employee {
 
     console.log(
       `Name: ${this.name}, age: ${this.age} has ${this.workingHours} working hours.`,
-      `\n${this.name} is working as: ${this.occupation}`,
+      `\nHas worked ${this.extraHours} extra hours.`,
+      `\n${this.name} is working as: ${this.occupation}.`,
       `\nFree days left: ${this.freeDays}, used ${29 - this.freeDays}.`,
       `\nHas made £${this.money.toFixed(2)} so far.`,
       `\nAnd money left after tax: ${this.moneyAfterTax}, tax payed is: ${(
         this.money - this.moneyAfterTax
-      ).toFixed(2)}`,
-      `\nHas worked ${this.extraHours} extra hours.`,
+      ).toFixed(2)}.`,
     )
   }
 
@@ -113,7 +112,7 @@ employee1.addWorkingMonth()
 employee1.addFreeDays()
 employee1.addExtraDays(3)
 employee1.addExtraHours(5)
-employee1.addWorkinYear()
+employee1.addWorkingYear()
 employee1.addWorkingDay()
 
 employee1.displayDetails()
