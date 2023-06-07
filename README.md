@@ -1,6 +1,3 @@
-# Salary-calculation
-The Employee class manages employee information, working hours, earnings, and tax deductions. It enables tracking and calculation of total earnings, and provides a concise overview of an employee's details, working hours, free days, total earnings, and tax amount.
-
 Name: Alina, age: 22 has 2304 working hours.
 Alina is working as: specialist
 Free days left: 28, used 1.
