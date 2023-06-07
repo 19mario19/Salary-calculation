@@ -31,9 +31,57 @@ class Employee {
     this.bonus = bonus
   }
 
+  // Setter methods
+
+  setName(name) {
+    this.name = name
+  }
+
+  setAge(age) {
+    this.age = age
+  }
+
+  setOccupation(occupation) {
+    this.occupation = occupation
+  }
+
+  setRate(rate) {
+    this.rate = rate
+  }
+
+  setFreeDays(freeDays) {
+    this.freeDays = freeDays
+  }
+
+  setWorkingHours(workingHours) {
+    this.workingHours = workingHours
+  }
+
+  setExtraHours(extraHours) {
+    this.extraHours = extraHours
+  }
+
+  setBonus(bonus) {
+    this.bonus = bonus
+  }
+
+  setTax(tax) {
+    this.tax = tax
+  }
+
   // Calculate money
 
   calculateTotal() {
+    if (this.money <= 12571) {
+      this.tax = 0
+    } else if (this.money > 12571 && this.money <= 50271) {
+      this.tax = 20
+    } else if (this.money > 50271 && this.money <= 125140) {
+      this.tax = 40
+    } else if (this.money > 125140) {
+      this.tax = 45
+    }
+
     this.money =
       this.rate * this.workingHours +
       this.rate * (29 - this.freeDays) +
@@ -54,9 +102,12 @@ class Employee {
       `\n${this.name} is working as: ${this.occupation}.`,
       `\nFree days left: ${this.freeDays}, used ${29 - this.freeDays}.`,
       `\nHas made £${this.money.toFixed(2)} so far.`,
-      `\nAnd money left after tax: ${this.moneyAfterTax}, tax payed is: ${(
+      `\nAnd money left after tax: ${
+        this.moneyAfterTax
+      }, tax payed is (${(`${this.tax}%`)}): ${(
         this.money - this.moneyAfterTax
       ).toFixed(2)}.`,
+      `\n\n`,
     )
   }
 
@@ -102,10 +153,9 @@ class Employee {
   }
 }
 
-let employee1 = new Employee("Alina", 22)
-
-
 // Testing
+
+let employee1 = new Employee("Alina", 22)
 
 employee1.addWorkingDay()
 employee1.addWorkingMonth()
@@ -116,3 +166,19 @@ employee1.addWorkingYear()
 employee1.addWorkingDay()
 
 employee1.displayDetails()
+
+let employee2 = new Employee("Ana", 34, "manager", 5)
+
+employee2.setRate(50)
+
+employee2.setName("Iuliana")
+
+employee2.addWorkingDay()
+employee2.addWorkingMonth()
+employee2.addFreeDays()
+employee2.addExtraDays(3)
+employee2.addExtraHours(5)
+employee2.addWorkingYear()
+employee2.addWorkingDay()
+
+employee2.displayDetails()
