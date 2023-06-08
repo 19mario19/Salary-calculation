@@ -1,184 +1,176 @@
 function percent(percent, total) {
   return parseFloat((percent / 100) * total).toFixed(2)
 }
+function bonus(days, maximum = 300) {
+  let pricePerDay = maximum / 22
+  return parseFloat(pricePerDay * days)
+}
+
 
 class Employee {
-  constructor(
-    name,
-    age,
-    occupation = "specialist",
-    rate = 12.8,
-    freeDays = 29,
-    workingHours = 0,
-    extraHours = 0,
-    bonus = 300,
-    tax = 20,
-  ) {
+  constructor(name, rate = 12.8) {
     this.name = name
-    this.age = age
-    this.occupation = occupation
-    this.workingHours = workingHours
-    this.freeDays = freeDays
+
     this.rate = rate
-    this.money =
-      this.rate * this.workingHours +
-      this.rate * (29 - this.freeDays) +
-      this.rate * this.extraHours +
-      this.bonus
-    this.tax = tax
-    this.moneyAfterTax = this.money - percent(tax, this.money)
-    this.extraHours = extraHours
-    this.bonus = bonus
+
+    this.hours = 0
+    this.days = 0
+    this.months = 0
+    this.years = 0
+
+    this.baseSalary = 0
+    this.totalSalary = 0
+    this.incomeAfterTax = 0
+    this.difference = 0
+
+    this.workingHours = 8
+    this.workingDays = 22
+    this.workingMonths = 12
+
+    this.extraHours = 0
+    this.extraDays = 0
+
+    this.bonus = 0
+
+    this.freeDaysLeft = 28
+
+    this.tax = 0
   }
 
-  // Setter methods
+  // Setter
 
   setName(name) {
     this.name = name
-  }
-
-  setAge(age) {
-    this.age = age
-  }
-
-  setOccupation(occupation) {
-    this.occupation = occupation
   }
 
   setRate(rate) {
     this.rate = rate
   }
 
-  setFreeDays(freeDays) {
-    this.freeDays = freeDays
+  // Adding working hours
+
+  addHours(hours = 1) {
+    this.hours += hours
   }
 
-  setWorkingHours(workingHours) {
-    this.workingHours = workingHours
+  addDays(days = 1) {
+    this.days = days
+    this.hours += days * this.workingHours
   }
 
-  setExtraHours(extraHours) {
-    this.extraHours = extraHours
+  addMonths(month = 1) {
+    this.months = month
+    this.days += month * this.workingDays
+    this.hours += this.days * this.workingHours
   }
 
-  setBonus(bonus) {
-    this.bonus = bonus
+  addYear(year = 1) {
+    this.years = year
+    this.months += year * this.workingMonths
+    this.days += this.months * this.workingDays
+    this.hours += this.days * this.workingHours
   }
 
-  setTax(tax) {
-    this.tax = tax
+  // Calculating base salary
+
+  calculateBaseSalary() {
+    this.baseSalary = this.rate * (this.hours + this.months + this.years)
+    return this.baseSalary
   }
 
-  // Calculate money
+  // Adding bonus
 
-  calculateTotal() {
-    if (this.money <= 12571) {
-      this.tax = 0
-    } else if (this.money > 12571 && this.money <= 50271) {
-      this.tax = 20
-    } else if (this.money > 50271 && this.money <= 125140) {
-      this.tax = 40
-    } else if (this.money > 125140) {
-      this.tax = 45
-    }
-
-    this.money =
-      this.rate * this.workingHours +
-      this.rate * ((29 - this.freeDays)*8) +
-      this.rate * this.extraHours +
-      this.bonus
-
-    this.moneyAfterTax = (this.money - percent(this.tax, this.money)).toFixed(2)
+  calculateBonus() {
+    this.bonus = bonus(this.days, 300)
+    return this.bonus
   }
 
-  // Info
-
-  displayDetails() {
-    this.calculateTotal()
-
-    console.log(
-      `Name: ${this.name}, age: ${this.age} has ${this.workingHours} working hours.`,
-      `\nHas worked ${this.extraHours} extra hours.`,
-      `\n${this.name} is working as: ${this.occupation}.`,
-      `\nFree days left: ${this.freeDays}, used ${29 - this.freeDays}.`,
-      `\nHas made £${this.money.toFixed(2)} so far.`,
-      `\nAnd money left after tax: ${
-        this.moneyAfterTax
-      }, tax payed is (${(`${this.tax}%`)}): ${(
-        this.money - this.moneyAfterTax
-      ).toFixed(2)}.`,
-      `\n\n`,
-    )
-  }
-
-  // Free days
-
-  addFreeDays(day = 1) {
-    this.freeDays -= day
-    this.calculateTotal()
-  }
-
-  // Working
-
-  addWorkingDay(hours = 8) {
-    this.workingHours += hours
-    this.calculateTotal()
-  }
-
-  addWorkingMonth(days = 22) {
-    for (let i = 0; i < days; i++) {
-      this.addWorkingDay()
-    }
-    this.calculateTotal()
-  }
-
-  addWorkingYear(months = 12) {
-    for (let i = 0; i < months; i++) {
-      this.addWorkingMonth()
-    }
-    this.calculateTotal()
-  }
-
-  // Extra
+  // Adding extra
 
   addExtraHours(hours = 1) {
     this.extraHours += hours
-    this.calculateTotal()
   }
+
   addExtraDays(days = 1) {
-    for (let i = 0; i < days; i++) {
-      this.extraHours += 8
+    this.extraDays += days
+    this.extraHours += this.extraDays * this.workingHours
+  }
+
+  // Removing free days
+
+  removeFreeDays(days = 1) {
+    this.freeDaysLeft -= days
+  }
+
+  // Calculate total salary
+
+  calculateTotalSalary() {
+    this.calculateBaseSalary()
+    this.calculateBonus()
+
+    if (this.totalSalary <= 12571) {
+      this.tax = 0
+    } else if (this.totalSalary > 12571 && this.totalSalary <= 50271) {
+      this.tax = 20
+    } else if (this.totalSalary > 50271 && this.totalSalary <= 125140) {
+      this.tax = 40
+    } else if (this.totalSalary > 125140) {
+      this.tax = 45
     }
-    this.calculateTotal()
+
+    this.totalSalary =
+      this.baseSalary +
+      this.bonus +
+      this.rate * ((28 - this.freeDaysLeft) * this.workingHours) +
+      this.extraHours * this.rate
+
+    this.incomeAfterTax = this.totalSalary - percent(this.tax, this.totalSalary)
+
+    return this.totalSalary
+  }
+
+  calculateDifference() {
+    this.calculateBaseSalary()
+    this.calculateBonus()
+    this.calculateTotalSalary()
+
+    this.difference = this.totalSalary - this.baseSalary
+
+    return this.difference
+  }
+
+  displayDetails() {
+
+    this.calculateBaseSalary()
+    this.calculateBonus()
+    this.calculateDifference()
+    this.calculateTotalSalary()
+
+
+
+    const output = `Name is ${this.name} has ${
+      this.hours + Number(this.extraHours)
+    } working hours.
+    \nHas worked ${this.extraHours} extra hours.
+    \nFree days left: ${this.freeDaysLeft}, used ${28 - this.freeDaysLeft}.
+    \nHas made £${this.totalSalary.toFixed(2)} so far.
+    \nAnd money left after tax: ${this.incomeAfterTax.toFixed(
+      2,
+    )}, tax paid is (${this.tax}%): ${(
+      this.totalSalary - this.incomeAfterTax
+    ).toFixed(2)}.
+    \n\n`
+
+    console.log(output)
+    return output
   }
 }
 
 // Testing
 
-let employee1 = new Employee("Alina", 22)
 
-employee1.addWorkingDay()
-employee1.addWorkingMonth()
-employee1.addFreeDays()
-employee1.addExtraDays(3)
-employee1.addExtraHours(5)
-employee1.addWorkingYear()
-employee1.addWorkingDay()
-
-employee1.displayDetails()
-
-let employee2 = new Employee("Ana", 34, "manager", 5)
-
-employee2.setRate(21)
-
-employee2.setName("Iuliana")
-
-employee2.addWorkingDay()
-// employee2.addWorkingMonth()
-employee2.addFreeDays(20)
-employee2.addExtraDays(3)
-employee2.addExtraHours(5)
-employee2.addWorkingYear()
-employee2.addWorkingDay()
-
-employee2.displayDetails()
+const one = new Employee("Alina")
+// one.addMonths(12)
+one.addYear(1)
+// one.calculateTotalSalary()
+one.displayDetails()
